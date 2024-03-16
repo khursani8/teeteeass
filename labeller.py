@@ -1,89 +1,70 @@
 import gradio as gr
 import fire
 
-g_texts = []
-g_arpas = []
-g_path = None
+class PhonemeAnnotator:
+    def __init__(self, path):
+        self.path = path
+        self.texts = []
+        self.arpas = []
+        self.load_data()
 
-def b_change_index(index,a=None,b=None):
-    index = int(index)
-    return g_texts[index],g_arpas[index]
+    def load_data(self):
+        try:
+            with open(self.path, 'r', encoding="utf-8") as file:
+                lines = file.readlines()
+                for line in lines:
+                    text, arpa = line.strip().split("|")
+                    self.texts.append(text)
+                    self.arpas.append(arpa)
+        except FileNotFoundError:
+            print("File not found. Please check the path and try again.")
+            exit()
 
-def b_submit_change(index,text,arpa):
-    index = int(index)
-    g_texts[index] = text
-    g_arpas[index] = arpa
-    with open(g_path,'w', encoding="utf-8") as file:
-        for idx in range(len(g_texts)):
-            text = g_texts[idx]
-            arpa = g_arpas[idx]
-            file.write(f"{text}|{arpa}".strip()+'\n')
-    index += 1
-    return index,g_texts[index],g_arpas[index]
+    def save_data(self):
+        with open(self.path, 'w', encoding="utf-8") as file:
+            for text, arpa in zip(self.texts, self.arpas):
+                file.write(f"{text}|{arpa}\n")
+
+    def submit_change(self, index, text, arpa):
+        index = int(index)
+        if index < 0 or index >= len(self.texts):
+            return "Invalid index", "", ""
+        self.texts[index] = text
+        self.arpas[index] = arpa
+        self.save_data()
+        next_index = min(index + 1, len(self.texts) - 1)
+        return str(next_index), self.texts[next_index], self.arpas[next_index]
+
+    def change_index(self, index):
+        index = int(index)
+        if index < 0 or index >= len(self.texts):
+            return "", ""
+        return self.texts[index], self.arpas[index]
+
+    def launch_gui(self):
+        with gr.Blocks() as gui:
+            indexbox = gr.Textbox(label="Index", value="0")
+            textbox = gr.Textbox(label="Text")
+            arpabox = gr.Textbox(label="Arpa")
+            btn_submit_change = gr.Button('Submit')
+
+            btn_submit_change.click(
+                self.submit_change,
+                inputs=[indexbox, textbox, arpabox],
+                outputs=[indexbox, textbox, arpabox]
+            )
+
+            gui.load(
+                self.change_index,
+                inputs=[indexbox],
+                outputs=[textbox, arpabox]
+            )
+
+        gui.launch(server_name='0.0.0.0', server_port=7860)
 
 def start(path):
-    global g_path
-    g_path = path
-    global g_texts
-    texts = g_texts
-    global g_arpas
-    arpas = g_arpas
-    lines = open(path).readlines()
-    for line in lines:
-        text, arpa = line.split("|")
-        texts.append(text)
-        arpas.append(arpa)
-
-    print()
-    with gr.Blocks() as gui:
-        indexbox = gr.Textbox(
-            label = "Index",
-            visible = True,
-            scale=5,
-            value=0
-        )
-        with gr.Column():
-            with gr.Row():
-                textbox = gr.Textbox(
-                    label = "Text",
-                    visible = True,
-                    scale=5
-                )
-                arpabox = gr.Textbox(
-                    label = "Arpa",
-                    visible = True,
-                    scale=5
-                )
-        btn_submit_change = gr.Button('Submit')
-
-        btn_submit_change.click(
-            b_submit_change,
-            inputs=[
-                indexbox,
-                textbox,
-                arpabox,
-            ],
-            outputs=[
-                indexbox,
-                textbox,
-                arpabox
-            ],
-        )
-        gui.load(
-            b_change_index,
-            inputs=[
-                indexbox,
-                textbox,
-                arpabox
-            ],
-            outputs=[
-                textbox,
-                arpabox
-            ],
-        )
-
-
-    gui.launch(server_name='0.0.0.0', server_port=7860)
+    annotator = PhonemeAnnotator(path)
+    annotator.launch_gui()
 
 if __name__ == "__main__":
     fire.Fire(start)
