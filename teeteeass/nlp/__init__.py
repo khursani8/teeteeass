@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, Optional
 
-from style_bert_vits2.constants import Languages
-from style_bert_vits2.nlp.symbols import (
+from teeteeass.constants import Languages
+from teeteeass.nlp.symbols import (
     LANGUAGE_ID_MAP,
     LANGUAGE_TONE_START_MAP,
     SYMBOLS,
@@ -41,11 +41,11 @@ def extract_bert_feature(
     """
 
     if language == Languages.JP:
-        from style_bert_vits2.nlp.japanese.bert_feature import extract_bert_feature
+        from teeteeass.nlp.japanese.bert_feature import extract_bert_feature
     elif language == Languages.EN:
-        from style_bert_vits2.nlp.english.bert_feature import extract_bert_feature
+        from teeteeass.nlp.english.bert_feature import extract_bert_feature
     elif language == Languages.ZH:
-        from style_bert_vits2.nlp.chinese.bert_feature import extract_bert_feature
+        from teeteeass.nlp.chinese.bert_feature import extract_bert_feature
     else:
         raise ValueError(f"Language {language} not supported")
 
@@ -58,35 +58,23 @@ def clean_text(
     use_jp_extra: bool = True,
     raise_yomi_error: bool = False,
 ) -> tuple[str, list[str], list[int], list[int]]:
-    """
-    テキストをクリーニングし、音素に変換する
-
-    Args:
-        text (str): クリーニングするテキスト
-        language (Languages): テキストの言語
-        use_jp_extra (bool, optional): テキストが日本語の場合に JP-Extra モデルを利用するかどうか。Defaults to True.
-        raise_yomi_error (bool, optional): False の場合、読めない文字が消えたような扱いとして処理される。Defaults to False.
-
-    Returns:
-        tuple[str, list[str], list[int], list[int]]: クリーニングされたテキストと、音素・アクセント・元のテキストの各文字に音素が何個割り当てられるかのリスト
-    """
 
     # Changed to import inside if condition to avoid unnecessary import
     if language == Languages.JP:
-        from style_bert_vits2.nlp.japanese.g2p import g2p
-        from style_bert_vits2.nlp.japanese.normalizer import normalize_text
+        from teeteeass.nlp.japanese.g2p import g2p
+        from teeteeass.nlp.japanese.normalizer import normalize_text
 
         norm_text = normalize_text(text)
         phones, tones, word2ph = g2p(norm_text, use_jp_extra, raise_yomi_error)
     elif language == Languages.EN:
-        from style_bert_vits2.nlp.english.g2p import g2p
-        from style_bert_vits2.nlp.english.normalizer import normalize_text
+        from teeteeass.nlp.english.g2p import g2p
+        from teeteeass.nlp.english.normalizer import normalize_text
 
         norm_text = normalize_text(text)
         phones, tones, word2ph = g2p(norm_text)
     elif language == Languages.ZH:
-        from style_bert_vits2.nlp.chinese.g2p import g2p
-        from style_bert_vits2.nlp.chinese.normalizer import normalize_text
+        from teeteeass.nlp.chinese.g2p import g2p
+        from teeteeass.nlp.chinese.normalizer import normalize_text
 
         norm_text = normalize_text(text)
         phones, tones, word2ph = g2p(norm_text)
@@ -99,17 +87,6 @@ def clean_text(
 def cleaned_text_to_sequence(
     cleaned_phones: list[str], tones: list[int], language: Languages
 ) -> tuple[list[int], list[int], list[int]]:
-    """
-    音素リスト・アクセントリスト・言語を、テキスト内の対応する ID に変換する
-
-    Args:
-        cleaned_phones (list[str]): clean_text() でクリーニングされた音素のリスト
-        tones (list[int]): 各音素のアクセント
-        language (Languages): テキストの言語
-
-    Returns:
-        tuple[list[int], list[int], list[int]]: List of integers corresponding to the symbols in the text
-    """
 
     phones = [__symbol_to_id[symbol] for symbol in cleaned_phones]
     tone_start = LANGUAGE_TONE_START_MAP[language]

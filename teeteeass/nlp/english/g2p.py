@@ -2,10 +2,10 @@ import re
 
 from g2p_en import G2p
 
-from style_bert_vits2.constants import Languages
-from style_bert_vits2.nlp import bert_models
-from style_bert_vits2.nlp.english.cmudict import get_dict
-from style_bert_vits2.nlp.symbols import PUNCTUATIONS, SYMBOLS
+from teeteeass.constants import Languages
+from teeteeass.nlp import bert_models
+from teeteeass.nlp.english.cmudict import get_dict
+from teeteeass.nlp.symbols import PUNCTUATIONS, SYMBOLS
 from minimalaya.syllable import Tokenizer
 
 def flatten_deep(lst):
@@ -17,7 +17,7 @@ def flatten_deep(lst):
             flat_list.append(item)
     return flat_list
 # Read the content from the file
-cmudict_text = open("style_bert_vits2/nlp/english/cmudict.rep").read()
+cmudict_text = open("teeteeass/nlp/english/cmudict.rep").read()
 cmudict_dict = {}
 lines = cmudict_text.split('\n')
 for line in lines:

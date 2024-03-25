@@ -2,9 +2,9 @@ from typing import Optional
 
 import torch
 
-from style_bert_vits2.constants import Languages
-from style_bert_vits2.nlp import bert_models
-from style_bert_vits2.nlp.japanese.g2p import text_to_sep_kata
+from teeteeass.constants import Languages
+from teeteeass.nlp import bert_models
+from teeteeass.nlp.japanese.g2p import text_to_sep_kata
 
 
 def extract_bert_feature(
