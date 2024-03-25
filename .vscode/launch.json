@@ -10,9 +10,10 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "args": [
-                "--path", "source/dbp_clean/johor.list"
-            ]
+            "justMyCode": false
+            // "args": [
+            //     "--path", "source/dbp_clean/johor.list"
+            // ]
         }
     ]
 }
