@@ -7,6 +7,8 @@ from teeteeass.nlp import bert_models
 from teeteeass.nlp.english.cmudict import get_dict
 from teeteeass.nlp.symbols import PUNCTUATIONS, SYMBOLS
 from minimalaya.syllable import Tokenizer
+import importlib.resources as pkg_resources
+from teeteeass.nlp.english import cmudict  # Adjust this import path to match your package structure
 
 def flatten_deep(lst):
     flat_list = []
@@ -17,7 +19,8 @@ def flatten_deep(lst):
             flat_list.append(item)
     return flat_list
 # Read the content from the file
-cmudict_text = open("teeteeass/nlp/english/cmudict.rep").read()
+with pkg_resources.open_text(cmudict, 'cmudict.rep') as file:
+    cmudict_text = file.read()
 cmudict_dict = {}
 lines = cmudict_text.split('\n')
 for line in lines:
