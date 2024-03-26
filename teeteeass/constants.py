@@ -17,9 +17,9 @@ class Languages:
 
 # 言語ごとのデフォルトの BERT トークナイザーのパス
 DEFAULT_BERT_TOKENIZER_PATHS = {
-    Languages.JP: "onnx" / "ku-nlp_deberta-v2-large-japanese-char-wwm_onnx",
-    Languages.EN: "onnx" / "microsoft_deberta-v3-large_onnx",
-    Languages.ZH: "onnx" / "hfl_chinese-roberta-wwm-ext-large_onnx",
+    Languages.JP: "onnx/" + "ku-nlp_deberta-v2-large-japanese-char-wwm_onnx",
+    Languages.EN: "onnx/" + "microsoft_deberta-v3-large_onnx",
+    Languages.ZH: "onnx/" + "hfl_chinese-roberta-wwm-ext-large_onnx",
 }
 
 # デフォルトのユーザー辞書ディレクトリ
