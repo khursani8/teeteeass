@@ -1,8 +1,7 @@
-from onnx_modules.V220_OnnxInference import OnnxInferenceSession
+from teeteeass.onnx_modules.V220_OnnxInference import OnnxInferenceSession
 import time
 import numpy as np
 from teeteeass.common import get_text
-from huggingface_hub import HfApi
 from pathlib import Path
 from huggingface_hub import snapshot_download
 class hps:
