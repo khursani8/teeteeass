@@ -17,15 +17,15 @@ class Languages:
 
 # 言語ごとのデフォルトの BERT トークナイザーのパス
 DEFAULT_BERT_TOKENIZER_PATHS = {
-    Languages.JP: BASE_DIR / "onnx" / "ku-nlp_deberta-v2-large-japanese-char-wwm_onnx",
-    Languages.EN: BASE_DIR / "onnx" / "microsoft_deberta-v3-large_onnx",
-    Languages.ZH: BASE_DIR / "onnx" / "hfl_chinese-roberta-wwm-ext-large_onnx",
+    Languages.JP: "onnx" / "ku-nlp_deberta-v2-large-japanese-char-wwm_onnx",
+    Languages.EN: "onnx" / "microsoft_deberta-v3-large_onnx",
+    Languages.ZH: "onnx" / "hfl_chinese-roberta-wwm-ext-large_onnx",
 }
 
 # デフォルトのユーザー辞書ディレクトリ
 ## teeteeass.nlp.japanese.user_dict モジュールのデフォルト値として利用される
 ## ライブラリとしての利用などで外部のユーザー辞書を指定したい場合は、user_dict 以下の各関数の実行時、引数に辞書データファイルのパスを指定する
-DEFAULT_USER_DICT_DIR = BASE_DIR / "dict_data"
+DEFAULT_USER_DICT_DIR = "dict_data"
 
 # デフォルトの推論パラメータ
 DEFAULT_STYLE = "Neutral"
