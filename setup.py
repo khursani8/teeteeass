@@ -22,4 +22,7 @@ setup(
         'Operating System :: OS Independent',
     ],
     python_requires='>=3.10',  # Minimum Python version requirement
+    package_data={
+        'teeteeass.nlp.english': ['cmudict.rep'],
+    },
 )
