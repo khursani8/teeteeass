@@ -19,6 +19,7 @@ https://onnxruntime.ai/docs/install/#install-onnx-runtime-ort-1
 ## Simple Malay TTS
 
 Models:
+
 [/] https://github.com/litagin02/Style-Bert-VITS2
 
 [ ] https://github.com/jasonppy/VoiceCraft
