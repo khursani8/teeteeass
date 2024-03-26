@@ -3,7 +3,7 @@ import time
 import numpy as np
 from teeteeass.common import get_text
 from pathlib import Path
-from huggingface_hub import snapshot_download
+from huggingface_hub import snapshot_download,HfApi
 class hps:
     version = "2.2.0"
     data = type('Data', (), {'add_blank': True})
