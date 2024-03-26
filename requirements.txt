@@ -1,0 +1,7 @@
+g2p_en
+onnxruntime
+transformers
+scipy
+soundfile==0.12.1
+huggingface_hub==0.22.0
+safetensors==0.4.2

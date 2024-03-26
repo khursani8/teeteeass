@@ -1,7 +1,0 @@
-g2p_en
-onnxruntime
-transformers
-loguru
-git+https://github.com/khursani8/minimalaya
-scipy
-sentencepiece

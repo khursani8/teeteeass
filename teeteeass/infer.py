@@ -10,15 +10,17 @@ class hps:
 class TTS:
     def __init__(self,speaker):
         if speaker is None:
-            pass
+            self.speaker = "BertVits2.2PT"
+        else:
+            self.speaker = speaker
         self.session = OnnxInferenceSession(
             {
-                "enc": "onnx/BertVits2.2PT/BertVits2.2PT_enc_p.onnx",
-                "emb_g": "onnx/BertVits2.2PT/BertVits2.2PT_emb.onnx",
-                "dp": "onnx/BertVits2.2PT/BertVits2.2PT_dp.onnx",
-                "sdp": "onnx/BertVits2.2PT/BertVits2.2PT_sdp.onnx",
-                "flow": "onnx/BertVits2.2PT/BertVits2.2PT_flow.onnx",
-                "dec": "onnx/BertVits2.2PT/BertVits2.2PT_dec.onnx",
+                "enc": f"onnx/{self.speaker}/BertVits2.2PT_enc_p.onnx",
+                "emb_g": f"onnx/{self.speaker}/BertVits2.2PT_emb.onnx",
+                "dp": f"onnx/{self.speaker}/BertVits2.2PT_dp.onnx",
+                "sdp": f"onnx/{self.speaker}/BertVits2.2PT_sdp.onnx",
+                "flow": f"onnx/{self.speaker}/BertVits2.2PT_flow.onnx",
+                "dec": f"onnx/{self.speaker}/BertVits2.2PT_dec.onnx",
             },
             Providers=['CPUExecutionProvider'],
         )
@@ -48,3 +50,5 @@ class TTS:
     def get_providers(self):
         import onnxruntime as ort
         return ort.get_available_providers()
+    def list_speakers():
+        return []

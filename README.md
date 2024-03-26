@@ -1,22 +1,24 @@
 # teeteeass
 
+- Simple TTS for Bahasa Melayu, with little dependencies
+
 ## Installation
 
 1. clone
 2. cd to this repo
 3. pip install -e . --upgrade
+4. pip install git+https://github.com/khursani8/minimalaya
 
 or
 
 1. pip install git+https://github.com/khursani8/teeteeass --upgrade
+4. pip install git+https://github.com/khursani8/minimalaya
 
 ## Using gpu
 
 1. install onnx gpu
 https://onnxruntime.ai/docs/install/#install-onnx-runtime-ort-1
 2. set providers
-
-## Simple Malay TTS
 
 Models:
 
