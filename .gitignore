@@ -3,3 +3,4 @@
 onnx/
 *.wav
 teeteeass.egg-info/
+*.rep

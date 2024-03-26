@@ -5,3 +5,12 @@ scipy
 soundfile==0.12.1
 huggingface_hub==0.22.0
 safetensors==0.4.2
+
+## JP
+num2words
+pyopenjtalk
+
+## ZH
+jieba
+pypinyin
+cn2an

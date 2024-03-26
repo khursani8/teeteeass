@@ -4,8 +4,8 @@ from pathlib import Path
 import jieba.posseg as psg
 from pypinyin import Style, lazy_pinyin
 
-from style_bert_vits2.nlp.chinese.tone_sandhi import ToneSandhi
-from style_bert_vits2.nlp.symbols import PUNCTUATIONS
+from teeteeass.nlp.chinese.tone_sandhi import ToneSandhi
+from teeteeass.nlp.symbols import PUNCTUATIONS
 
 
 with open(Path(__file__).parent / "opencpop-strict.txt", "r", encoding="utf-8") as f:
@@ -122,8 +122,8 @@ def __get_initials_finals(word: str) -> tuple[list[str], list[str]]:
 
 
 if __name__ == "__main__":
-    from style_bert_vits2.nlp.chinese.bert_feature import extract_bert_feature
-    from style_bert_vits2.nlp.chinese.normalizer import normalize_text
+    from teeteeass.nlp.chinese.bert_feature import extract_bert_feature
+    from teeteeass.nlp.chinese.normalizer import normalize_text
 
     text = "啊！但是《原神》是由,米哈游自主，  [研发]的一款全.新开放世界.冒险游戏"
     text = normalize_text(text)

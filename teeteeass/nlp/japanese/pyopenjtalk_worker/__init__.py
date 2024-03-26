@@ -5,9 +5,8 @@ to avoid user dictionary access error
 
 from typing import Any, Optional
 
-from style_bert_vits2.logging import logger
-from style_bert_vits2.nlp.japanese.pyopenjtalk_worker.worker_client import WorkerClient
-from style_bert_vits2.nlp.japanese.pyopenjtalk_worker.worker_common import WORKER_PORT
+from teeteeass.nlp.japanese.pyopenjtalk_worker.worker_client import WorkerClient
+from teeteeass.nlp.japanese.pyopenjtalk_worker.worker_common import WORKER_PORT
 
 
 WORKER_CLIENT: Optional[WorkerClient] = None
@@ -89,7 +88,6 @@ def initialize_worker(port: int = WORKER_PORT) -> None:
     try:
         client = WorkerClient(port)
     except (socket.timeout, socket.error):
-        logger.debug("try starting pyopenjtalk worker server")
         import os
         import subprocess
 
@@ -127,7 +125,6 @@ def initialize_worker(port: int = WORKER_PORT) -> None:
                 if count == 20:
                     raise TimeoutError("サーバーに接続できませんでした")
 
-    logger.debug("pyopenjtalk worker server started")
     WORKER_CLIENT = client
     atexit.register(terminate_worker)
 
@@ -144,7 +141,6 @@ def initialize_worker(port: int = WORKER_PORT) -> None:
 
 # top-level declaration
 def terminate_worker() -> None:
-    logger.debug("pyopenjtalk worker server terminated")
     global WORKER_CLIENT
     if not WORKER_CLIENT:
         return
@@ -154,7 +150,7 @@ def terminate_worker() -> None:
         if WORKER_CLIENT.status() == 1:
             WORKER_CLIENT.quit_server()
     except Exception as e:
-        logger.error(e)
+        print(e)
 
     WORKER_CLIENT.close()
     WORKER_CLIENT = None

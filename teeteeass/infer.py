@@ -2,25 +2,27 @@ from onnx_modules.V220_OnnxInference import OnnxInferenceSession
 import time
 import numpy as np
 from teeteeass.common import get_text
-
+from huggingface_hub import HfApi
+from pathlib import Path
+from huggingface_hub import snapshot_download
 class hps:
     version = "2.2.0"
     data = type('Data', (), {'add_blank': True})
 
+repo_id = "khursani8/onnx"
 class TTS:
     def __init__(self,speaker):
-        if speaker is None:
-            self.speaker = "BertVits2.2PT"
-        else:
-            self.speaker = speaker
+        self.speaker = speaker
+        if not Path(f"onnx/{self.speaker}").is_dir():
+            snapshot_download(repo_id=repo_id, allow_patterns=f"{speaker}/*",local_dir="onnx",local_dir_use_symlinks="auto")
         self.session = OnnxInferenceSession(
             {
-                "enc": f"onnx/{self.speaker}/BertVits2.2PT_enc_p.onnx",
-                "emb_g": f"onnx/{self.speaker}/BertVits2.2PT_emb.onnx",
-                "dp": f"onnx/{self.speaker}/BertVits2.2PT_dp.onnx",
-                "sdp": f"onnx/{self.speaker}/BertVits2.2PT_sdp.onnx",
-                "flow": f"onnx/{self.speaker}/BertVits2.2PT_flow.onnx",
-                "dec": f"onnx/{self.speaker}/BertVits2.2PT_dec.onnx",
+                "enc": f"onnx/{self.speaker}/{self.speaker}_enc_p.onnx",
+                "emb_g": f"onnx/{self.speaker}/{self.speaker}_emb.onnx",
+                "dp": f"onnx/{self.speaker}/{self.speaker}_dp.onnx",
+                "sdp": f"onnx/{self.speaker}/{self.speaker}_sdp.onnx",
+                "flow": f"onnx/{self.speaker}/{self.speaker}_flow.onnx",
+                "dec": f"onnx/{self.speaker}/{self.speaker}_dec.onnx",
             },
             Providers=['CPUExecutionProvider'],
         )
@@ -51,4 +53,7 @@ class TTS:
         import onnxruntime as ort
         return ort.get_available_providers()
     def list_speakers():
-        return []
+        api = HfApi()
+        repo_files = api.list_repo_files(repo_id=repo_id)
+        folders = [file.split('/')[0] for file in repo_files if '/' in file]
+        return sorted(set(folders))

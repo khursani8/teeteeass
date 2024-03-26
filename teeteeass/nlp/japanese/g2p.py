@@ -1,12 +1,11 @@
 import re
 
-from style_bert_vits2.constants import Languages
-from style_bert_vits2.logging import logger
-from style_bert_vits2.nlp import bert_models
-from style_bert_vits2.nlp.japanese import pyopenjtalk_worker as pyopenjtalk
-from style_bert_vits2.nlp.japanese.mora_list import MORA_KATA_TO_MORA_PHONEMES
-from style_bert_vits2.nlp.japanese.normalizer import replace_punctuation
-from style_bert_vits2.nlp.symbols import PUNCTUATIONS
+from teeteeass.constants import Languages
+from teeteeass.nlp import bert_models
+from teeteeass.nlp.japanese import pyopenjtalk_worker as pyopenjtalk
+from teeteeass.nlp.japanese.mora_list import MORA_KATA_TO_MORA_PHONEMES
+from teeteeass.nlp.japanese.normalizer import replace_punctuation
+from teeteeass.nlp.symbols import PUNCTUATIONS
 
 
 def g2p(
@@ -139,7 +138,6 @@ def text_to_sep_kata(
                 # ここは pyopenjtalk が読めない文字等のときに起こる
                 if raise_yomi_error:
                     raise YomiError(f"Cannot read: {word} in:\n{norm_text}")
-                logger.warning(f"Ignoring unknown: {word} in:\n{norm_text}")
                 continue
             # yomi は元の記号のままに変更
             yomi = word
@@ -447,11 +445,6 @@ def __align_tones(
             # phone が punctuation の場合 → (phone, 0) を追加
             result.append((phone, 0))
         else:
-            logger.debug(f"phones: {phones_with_punct}")
-            logger.debug(f"phone_tone_list: {phone_tone_list}")
-            logger.debug(f"result: {result}")
-            logger.debug(f"tone_index: {tone_index}")
-            logger.debug(f"phone: {phone}")
             raise ValueError(f"Unexpected phone: {phone}")
 
     return result

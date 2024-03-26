@@ -15,14 +15,14 @@ from uuid import UUID, uuid4
 import numpy as np
 from fastapi import HTTPException
 
-from style_bert_vits2.constants import DEFAULT_USER_DICT_DIR
-from style_bert_vits2.nlp.japanese import pyopenjtalk_worker as pyopenjtalk
-from style_bert_vits2.nlp.japanese.user_dict.part_of_speech_data import (
+from teeteeass.constants import DEFAULT_USER_DICT_DIR
+from teeteeass.nlp.japanese import pyopenjtalk_worker as pyopenjtalk
+from teeteeass.nlp.japanese.user_dict.part_of_speech_data import (
     MAX_PRIORITY,
     MIN_PRIORITY,
     part_of_speech_data,
 )
-from style_bert_vits2.nlp.japanese.user_dict.word_model import UserDictWord, WordTypes
+from teeteeass.nlp.japanese.user_dict.word_model import UserDictWord, WordTypes
 
 
 # root_dir = engine_root()

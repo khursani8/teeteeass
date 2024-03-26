@@ -50,6 +50,7 @@ def load_tokenizer(
         cache_dir=cache_dir,
         revision=revision,
     )
-    tokenizer.model_input_names = ['input_ids', 'attention_mask']
+    if language != "ZH":
+        tokenizer.model_input_names = ['input_ids', 'attention_mask']
     __loaded_tokenizers[language] = tokenizer
     return tokenizer

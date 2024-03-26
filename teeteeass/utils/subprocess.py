@@ -2,8 +2,8 @@ import subprocess
 import sys
 from typing import Any, Callable
 
-from style_bert_vits2.logging import logger
-from style_bert_vits2.utils.stdout_wrapper import SAFE_STDOUT
+from teeteeass.logging import logger
+from teeteeass.utils.stdout_wrapper import SAFE_STDOUT
 
 
 def run_script_with_log(
