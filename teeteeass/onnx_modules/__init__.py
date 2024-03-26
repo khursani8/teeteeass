@@ -1,4 +1,4 @@
-﻿from utils import get_hparams_from_file, load_checkpoint,load_safetensors
+﻿from teeteeass.utils import get_hparams_from_file, load_checkpoint,load_safetensors
 import json
 
 
