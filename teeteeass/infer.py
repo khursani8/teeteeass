@@ -106,14 +106,11 @@ class TTS:
         lang_ids = np.longlong(lang_ids)
         
         return bert.T,ja_bert.T,en_bert.T,phone,tone,lang_ids
-    def generate(self,text,language):
+    def generate(self,text,language,emo=None):
         start = time.monotonic()
         bert, ja_bert, en_bert, phones, tones, lang_ids = self.get_text(text,language,hps,'cpu')
 
-        emo = np.random.randn(512, 1)
-        sid = np.array([0])
-
-        audio = self.session(phones, tones, lang_ids, bert, ja_bert, en_bert, emo, sid).squeeze()
+        audio = self.session(phones, tones, lang_ids, bert, ja_bert, en_bert, emo).squeeze()
         print(time.monotonic() - start)
         return audio
     def set_providers(self,providers):
