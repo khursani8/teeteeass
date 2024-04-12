@@ -79,7 +79,7 @@ class OnnxInferenceSession:
             "bert_2": bert_en.astype(np.float32),
             "g": g.astype(np.float32),
         }
-        if emo:
+        if emo is not None:
             inps["emo"] = emo.astype(np.float32)
         enc_rtn = self.enc.run(
             None,
