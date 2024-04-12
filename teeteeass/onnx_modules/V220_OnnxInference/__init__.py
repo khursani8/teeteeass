@@ -31,7 +31,6 @@ def generate_path(duration, mask):
     path = np.expand_dims(path, 1).transpose(0, 1, 3, 2)
     return path
 
-
 class OnnxInferenceSession:
     def __init__(self, path, Providers=["CPUExecutionProvider"]):
         self.enc = ort.InferenceSession(path["enc"], providers=Providers)
@@ -49,8 +48,8 @@ class OnnxInferenceSession:
         bert_zh,
         bert_jp,
         bert_en,
-        emo,
-        sid,
+        emo=None,
+        sid=np.array([0]),
         seed=114514,
         seq_noise_scale=0.8,
         sdp_noise_scale=0.6,
@@ -71,18 +70,20 @@ class OnnxInferenceSession:
             },
         )[0]
         g = np.expand_dims(g, -1)
+        inps = {
+            "x": seq.astype(np.int64),
+            "t": tone.astype(np.int64),
+            "language": language.astype(np.int64),
+            "bert_0": bert_zh.astype(np.float32),
+            "bert_1": bert_jp.astype(np.float32),
+            "bert_2": bert_en.astype(np.float32),
+            "g": g.astype(np.float32),
+        }
+        if emo:
+            inps["emo"] = emo.astype(np.float32)
         enc_rtn = self.enc.run(
             None,
-            {
-                "x": seq.astype(np.int64),
-                "t": tone.astype(np.int64),
-                "language": language.astype(np.int64),
-                "bert_0": bert_zh.astype(np.float32),
-                "bert_1": bert_jp.astype(np.float32),
-                "bert_2": bert_en.astype(np.float32),
-                "emo": emo.astype(np.float32),
-                "g": g.astype(np.float32),
-            },
+            inps,
         )
         x, m_p, logs_p, x_mask = enc_rtn[0], enc_rtn[1], enc_rtn[2], enc_rtn[3]
         np.random.seed(seed)
