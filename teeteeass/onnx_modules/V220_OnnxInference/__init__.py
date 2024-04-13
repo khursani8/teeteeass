@@ -80,14 +80,14 @@ class OnnxInferenceSession:
             "g": g.astype(np.float32),
         }
         if emo is not None:
-            inps["emo"] = np.random.randn(512, 1).astype(np.float32)
+            inps["emo"] = emo.astype(np.float32)
         try:
             enc_rtn = self.enc.run(
                 None,
                 inps,
             )
         except:
-            inps["emo"] = emo.astype(np.float32)
+            inps["emo"] = np.random.randn(512, 1).astype(np.float32)
             enc_rtn = self.enc.run(
                 None,
                 inps,
