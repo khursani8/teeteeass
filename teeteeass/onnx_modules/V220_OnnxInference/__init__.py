@@ -81,10 +81,17 @@ class OnnxInferenceSession:
         }
         if emo is not None:
             inps["emo"] = emo.astype(np.float32)
-        enc_rtn = self.enc.run(
-            None,
-            inps,
-        )
+        try:
+            enc_rtn = self.enc.run(
+                None,
+                inps,
+            )
+        except:
+            inps["emo"] = emo.astype(np.float32)
+            enc_rtn = self.enc.run(
+                None,
+                inps,
+            )
         x, m_p, logs_p, x_mask = enc_rtn[0], enc_rtn[1], enc_rtn[2], enc_rtn[3]
         np.random.seed(seed)
         zinput = np.random.randn(x.shape[0], 2, x.shape[2]) * sdp_noise_scale
